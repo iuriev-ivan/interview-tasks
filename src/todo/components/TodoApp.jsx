@@ -9,12 +9,19 @@ export function TodoApp() {
   const [input, setInput] = useState('')
   const [openCount, setOpenCount] = useState(0)
   const [doneCount, setDoneCount] = useState(0)
+  const [listFilter, setListFilter] = useState('all')
 
   const nextIdRef = useRef(1)
   const lastActionRef = useRef('idle')
   const inputRef = useRef(null)
 
-  const filter = useMemo(() => ({ status: 'all' }), [])
+  const filter = useMemo(() => ({ status: listFilter }), [listFilter])
+
+  const visibleTodos = useMemo(() => {
+    if (listFilter === 'active') return todos.filter((t) => !t.done)
+    if (listFilter === 'completed') return todos.filter((t) => t.done)
+    return todos
+  }, [todos, listFilter])
 
   useEffect(() => {
     document.title = `Todos (${todos.length})`
@@ -92,8 +99,29 @@ export function TodoApp() {
         onChange={(e) => setInput(e.target.value)}
         onAdd={addTodo}
       />
+
+      <div className="todo-filter" role="group" aria-label="Filter tasks">
+        <span className="todo-filter-label">Show</span>
+        {[
+          { id: 'all', label: 'All' },
+          { id: 'active', label: 'Active' },
+          { id: 'completed', label: 'Done' },
+        ].map(({ id, label }) => (
+          <button
+            key={id}
+            type="button"
+            className={
+              listFilter === id ? 'todo-filter-btn is-active' : 'todo-filter-btn'
+            }
+            onClick={() => setListFilter(id)}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+
       <ul className="todo-list">
-        {todos.map((todo, index) => (
+        {visibleTodos.map((todo, index) => (
           <TodoRow
             key={index}
             todo={todo}

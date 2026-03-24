@@ -30,6 +30,43 @@ body {
   color: #555;
 }
 
+.todo-filter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+  margin-bottom: 1rem;
+}
+
+.todo-filter-label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #444;
+  margin-right: 0.25rem;
+}
+
+.todo-filter-btn {
+  padding: 0.35rem 0.65rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #fff;
+  font: inherit;
+  font-size: 0.8125rem;
+  cursor: pointer;
+  color: #333;
+}
+
+.todo-filter-btn:hover {
+  border-color: #999;
+  background: #fafafa;
+}
+
+.todo-filter-btn.is-active {
+  border-color: #2563eb;
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
 .todo-form {
   display: flex;
   gap: 0.5rem;
